@@ -361,7 +361,7 @@
         <div class="nav-subtitle" data-translate="subtitle">Arquiteta de Software</div>
       </div>
       <div class="nav-menu">
-        <button class="theme-toggle" title="Toggle theme">☀️</button>
+        <button class="theme-toggle" title="Toggle theme">🌙</button>
         <button class="language-toggle" title="Toggle language">🇧🇷</button>
         <div class="tooltip-container">
           <span class="nav-link-disabled" data-translate="nav_articles">/artigos</span>
@@ -552,13 +552,8 @@
 
 
     function initialize() {
-      const savedTheme = localStorage.getItem('theme');
-      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (savedTheme) {
-        applyTheme(savedTheme);
-      } else if (prefersDark) {
-        applyTheme('dark');
-      }
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      applyTheme(savedTheme);
 
       const savedLang = localStorage.getItem('language') || 'pt-BR';
       setLanguage(savedLang);
