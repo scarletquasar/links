@@ -508,7 +508,6 @@
       }
     };
 
-    // --- Theme Logic ---
     const applyTheme = (theme) => {
       if (theme === 'dark') {
         body.classList.add('dark-mode');
@@ -525,7 +524,6 @@
       localStorage.setItem('theme', newTheme);
     });
 
-    // --- Language Logic ---
     const setLanguage = (lang) => {
       html.lang = lang;
       const langData = translations[lang];
@@ -551,11 +549,22 @@
 
 
     function initialize() {
-      const savedTheme = localStorage.getItem('theme') || 'dark';
-      applyTheme(savedTheme);
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlTheme = urlParams.get('theme');
+      const urlLangParam = urlParams.get('lang');
 
-      const savedLang = localStorage.getItem('language') || 'pt-BR';
-      setLanguage(savedLang);
+      let langFromUrl = null;
+      if (urlLangParam === 'ptBR') {
+        langFromUrl = 'pt-BR';
+      } else if (urlLangParam === 'enUS') {
+        langFromUrl = 'en-US';
+      }
+
+      const themeToApply = urlTheme || localStorage.getItem('theme') || 'dark';
+      applyTheme(themeToApply);
+
+      const langToApply = langFromUrl || localStorage.getItem('language') || 'pt-BR';
+      setLanguage(langToApply);
     }
 
     initialize();
