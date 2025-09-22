@@ -1,69 +1,572 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+
+</html>
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Connect with Scarlet</title>
+  <title>Scarlet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
   <style>
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      height: 100vh;
-      background: radial-gradient(circle at top, #0f0f0f, #1a1a1a);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
+    :root {
+      --bg-color: #ffffff;
+      --text-color-primary: #374151;
+      --text-color-headings: #111827;
+      --text-color-secondary: #6b7280;
+      --text-color-tertiary: #9ca3af;
+      --border-color: #e5e7eb;
+      --link-bg: #ffffff;
+      --link-bg-hover: #f9fafb;
+      --link-border: #e5e7eb;
+      --link-border-hover: #d1d5db;
+      --link-text: #1f2937;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .dark-mode {
+      --bg-color: #111827;
+      --text-color-primary: #d1d5db;
+      --text-color-headings: #f9fafb;
+      --text-color-secondary: #9ca3af;
+      --text-color-tertiary: #6b7280;
+      --border-color: #374151;
+      --link-bg: #1f2937;
+      --link-bg-hover: #374151;
+      --link-border: #374151;
+      --link-border-hover: #4b5563;
+      --link-text: #f3f4f6;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Karla', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .nav-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      margin-bottom: 20px;
+    }
+
+    .nav-title {
+      font-weight: 600;
+      color: var(--text-color-headings);
+      font-family: 'Work Sans', sans-serif;
+    }
+
+    .nav-subtitle {
+      font-size: 14px;
+      color: var(--text-color-secondary);
+      margin: 0;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .nav-menu a {
+      color: var(--text-color-secondary);
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .nav-menu a:hover {
+      color: var(--text-color-headings);
+    }
+
+    .theme-toggle,
+    .language-toggle {
+      background: none;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      padding: 4px;
+      color: var(--text-color-secondary);
+    }
+
+    .theme-toggle:hover,
+    .language-toggle:hover {
+      color: var(--text-color-headings);
+    }
+
+    .tooltip-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    .tooltip-container .tooltip-text {
+      visibility: hidden;
+      width: max-content;
+      background-color: var(--link-bg);
+      color: var(--text-color-primary);
       text-align: center;
-      animation: fadeIn 1s ease-out;
+      border-radius: 6px;
+      padding: 5px 10px;
+      position: absolute;
+      z-index: 1;
+      top: 150%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.2s;
+      font-size: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .tooltip-container .tooltip-text::after {
+      content: "";
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent transparent var(--border-color) transparent;
+    }
+
+    .tooltip-container:hover .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+
+
+    .nav-link-disabled {
+      color: var(--text-color-tertiary);
+      cursor: not-allowed;
+      font-size: 14px;
+      user-select: none;
+    }
+
+    .header {
+      padding: 20px 0 0 0;
+      margin-bottom: 0px;
+    }
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 20px;
+      display: block;
     }
 
     h1 {
-      font-size: 3rem;
-      margin-bottom: 1.5rem;
-      color: #ffffff;
+      font-family: 'Work Sans', sans-serif;
+      font-size: 24px;
       font-weight: 600;
+      color: var(--text-color-headings);
+      margin-bottom: 12px;
+      line-height: 1.2;
     }
 
-    .card {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      border-radius: 16px;
-      padding: 30px 50px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    .bio {
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--text-color-secondary);
+      line-height: 1.6;
+      margin-bottom: 32px;
     }
 
-    a {
-      display: block;
-      font-size: 1.2rem;
-      margin: 12px 0;
-      color: #90cdf4;
+    .links {
+      margin-bottom: 40px;
+    }
+
+    .link-group {
+      margin-bottom: 32px;
+    }
+
+    .link-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      margin-bottom: 8px;
+      background-color: var(--link-bg);
+      border: 1px solid var(--link-border);
+      border-radius: 12px;
       text-decoration: none;
-      transition: all 0.3s ease;
+      color: var(--link-text);
+      font-weight: 500;
+      font-size: 15px;
+      transition: all 0.15s ease;
+      position: relative;
     }
 
-    a:hover {
+    .link-item:hover {
+      border-color: var(--link-border-hover);
+      background-color: var(--link-bg-hover);
+      transform: translateY(-1px);
+    }
+
+    .link-content {
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+
+    .link-item .icon {
+      display: inline-block;
+      margin-right: 12px;
+      font-size: 16px;
+      width: 20px;
+      height: 20px;
+      text-align: center;
+    }
+
+    .external-arrow {
+      font-size: 14px;
+      color: var(--text-color-tertiary);
+    }
+
+    .link-description {
+      font-size: 13px;
+      color: var(--text-color-secondary);
+      font-weight: 400;
+      margin-top: 2px;
+    }
+
+    .contact-section {
+      margin-bottom: 40px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 15px;
+      color: var(--link-text);
+    }
+
+    .contact-item a {
+      color: var(--link-text);
+      text-decoration: none;
+    }
+
+    .contact-item a:hover {
+      text-decoration: underline;
+    }
+
+    .status-indicator {
+      width: 8px;
+      height: 8px;
+      background-color: #22c55e;
+      border-radius: 50%;
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+
+    .download-cv {
+      display: inline-flex;
+      align-items: center;
+      padding: 12px 20px;
+      background-color: #3b82f6;
       color: #ffffff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 14px;
+      transition: all 0.15s ease;
+      margin-bottom: 20px;
+    }
+
+    .download-cv:hover {
+      background-color: #2563eb;
+      transform: translateY(-1px);
+    }
+
+    .footer {
+      text-align: center;
+      padding: 40px 0 60px;
+      border-top: 1px solid var(--border-color);
+      margin-top: 40px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 16px;
+    }
+
+    .footer-links a {
+      color: var(--text-color-secondary);
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .footer-links a:hover {
+      color: var(--text-color-headings);
+    }
+
+    .footer-text {
+      font-size: 14px;
+      color: var(--text-color-tertiary);
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 0 16px;
+      }
+
+      .header {
+        padding: 20px 0 0 0;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      .bio {
+        font-size: 15px;
+      }
+
+      .footer-links {
+        flex-direction: column;
+        gap: 12px;
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="container">
-    <h1>Connect with Scarlet</h1>
-    <div class="card">
-      <a href="https://github.com/growly-group" target="_blank">🤖 Growly Group GitHub</a>
-      <a href="https://github.com/scarletquasar" target="_blank">🌌 Scarlet's GitHub</a>
-      <a href="https://www.linkedin.com/in/scarletrose" target="_blank">💼 Scarlet's LinkedIn</a>
+    <div class="nav-header">
+      <div>
+        <div class="nav-title">Scarlet</div>
+        <div class="nav-subtitle" data-translate="subtitle">Arquiteta de Software</div>
+      </div>
+      <div class="nav-menu">
+        <button class="theme-toggle" title="Toggle theme">☀️</button>
+        <button class="language-toggle" title="Toggle language">🇧🇷</button>
+        <div class="tooltip-container">
+          <span class="nav-link-disabled" data-translate="nav_articles">/artigos</span>
+          <span class="tooltip-text" data-translate="tooltip_coming_soon">Em breve</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="header">
+      <img src="https://avatars.githubusercontent.com/u/70824102?v=4" alt="Scarlet" class="avatar">
+      <h1>Scarlet</h1>
+      <p class="bio" data-translate="bio"><b>Open source</b>, <b>SaaS development</b>, <b>engenharia
+          de
+          software</b>, <b>devops</b>,
+        <b>infraestrutura (baremetal)</b>,
+        <b>Kasane Teto</b> e planejo fazer cosplays em breve.
+      </p>
+      <style>
+        .status-box {
+          background-color: var(--link-bg);
+          border: 1px solid var(--border-color);
+          border-radius: 12px;
+          padding: 16px 20px;
+          margin-bottom: 32px;
+          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.07), 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+          transition: all 0.2s ease-in-out;
+        }
+
+        .dark-mode .status-box {
+          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .status-box p {
+          margin: 0;
+          color: var(--text-color-secondary);
+          font-size: 15px;
+          line-height: 1.6;
+        }
+      </style>
+      <div class="status-box">
+        <p data-translate="status_text">
+          🌱 Atualmente trabalhando como <b>Arquiteta de Soluções Sênior</b> na tecnologia por trás dos pagamentos
+          instantâneos do PIX brasileiro no <b>banco Itaú</b> e tentando desenvolver soluções significativas na
+          <b>Growly Group</b>.
+        </p>
+      </div>
+    </div>
+
+    <div class="links">
+      <div class="link-group">
+        <a href="https://github.com/scarletquasar" target="_blank" class="link-item">
+          <div class="link-content">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Github-desktop-logo-symbol.svg/1200px-Github-desktop-logo-symbol.svg.png"
+              alt="Scarlet's GitHub" style="width: 35px; height: 100%; border-radius: 4px; margin-right: 12px;">
+            <span data-translate="link_github">Scarlet - Github</span>
+          </div>
+          <span class="external-arrow">↗</span>
+        </a>
+        <a href="https://www.linkedin.com/in/scarletrose" target="_blank" class="link-item">
+          <div class="link-content">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/LinkedIn_icon.svg/1024px-LinkedIn_icon.svg.png"
+              alt="Scarlet's LinkedIn" style="width: 35px; height: 100%; border-radius: 4px; margin-right: 12px;">
+            <span data-translate="link_linkedin">Scarlet - LinkedIn</span>
+          </div>
+          <span class="external-arrow">↗</span>
+        </a>
+        <a href="https://growly-group.xyz" target="_blank" class="link-item">
+          <div class="link-content">
+            <img src="https://avatars.githubusercontent.com/u/169310904?s=200&v=4" alt="Growly Group"
+              style="width: 35px; height: 100%; border-radius: 4px; margin-right: 12px;">
+            <span data-translate="link_gg_website">Growly Group - Site</span>
+          </div>
+          <span class="external-arrow">↗</span>
+        </a>
+        <a href="https://github.com/growly-group" target="_blank" class="link-item">
+          <div class="link-content">
+            <img src="https://avatars.githubusercontent.com/u/169310904?s=200&v=4" alt="Growly Group"
+              style="width: 35px; height: 100%; border-radius: 4px; margin-right: 12px;">
+            <span data-translate="link_gg_github">Growly Group - GitHub</span>
+          </div>
+          <span class="external-arrow">↗</span>
+        </a>
+        <a href="mailto:scarlet@growly-group.xyz" class="link-item">
+          <div class="link-content">
+            <img src="https://www.freeiconspng.com/thumbs/email-icon/email-icon--clipart-best-22.png" alt="Email"
+              style="width: 35px; height: 100%; border-radius: 4px; margin-right: 12px;">
+            scarlet@growly-group.xyz
+          </div>
+          <span class="external-arrow">↗</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="footer-links">
+        <a href="https://twitter.com/scarletrosedev" target="_blank"
+          style="display: inline-flex; align-items: center; gap: 6px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path
+              d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.68 6.68 0 0 0 16 3.542a6.66 6.66 0 0 1-1.889.518 3.34 3.34 0 0 0 1.447-1.817 6.53 6.53 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.32 9.32 0 0 1-6.767-3.429 3.29 3.29 0 0 0 1.018 4.382A3.32 3.32 0 0 1 .64 6.575v.045a3.29 3.29 0 0 0 2.632 3.218 3.28 3.28 0 0 1-.863.113 3.26 3.26 0 0 1-.621-.058 3.28 3.28 0 0 0 3.067 2.277A6.59 6.59 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.34 9.34 0 0 0 5.026 15" />
+          </svg>
+          @scarletrosedev
+        </a>
+      </div>
+      <p class="footer-text" data-translate="footer_text">Consistência é a chave</p>
     </div>
   </div>
+
+  <script>
+    const themeToggle = document.querySelector('.theme-toggle');
+    const languageToggle = document.querySelector('.language-toggle');
+    const body = document.body;
+    const html = document.documentElement;
+
+    const translations = {
+      "en-US": {
+        subtitle: "Software Architect",
+        nav_articles: "/articles",
+        bio: "I like <b>open source</b>, <b>SaaS development</b>, <b>software engineering</b>, <b>devops</b>, <b>self-hosted infrastructure</b>, <b>Kasane Teto</b> and I want to do cosplay in the future.",
+        status_text: "🌱 Currently working as a <b>Senior Solutions Architect</b> on the underlying technology behind brazilian PIX instant payments at <b>Itaú bank</b> and trying to develop meaningful solutions at <b>Growly Group</b>.",
+        link_github: "Scarlet - Github",
+        link_linkedin: "Scarlet - LinkedIn",
+        link_gg_website: "Growly Group - Website",
+        link_gg_github: "Growly Group - GitHub",
+        footer_code: "Code",
+        footer_text: "Consistency is the key",
+        lang_toggle_title: "Mudar idioma",
+        tooltip_coming_soon: "Coming soon"
+      },
+      "pt-BR": {
+        subtitle: "Arquiteta de Software",
+        nav_articles: "/artigos",
+        bio: "<b>Open source</b>, <b>SaaS development</b>, <b>engenharia de software</b>, <b>devops</b>, <b>infraestrutura (baremetal)</b>, <b>Kasane Teto</b> e planejo fazer cosplays em breve.",
+        status_text: "🌱 Atualmente trabalhando como <b>Arquiteta de Soluções Sênior</b> na tecnologia por trás dos pagamentos instantâneos do PIX brasileiro no <b>banco Itaú</b> e tentando desenvolver soluções significativas na <b>Growly Group</b>.",
+        link_github: "Scarlet - Github",
+        link_linkedin: "Scarlet - LinkedIn",
+        link_gg_website: "Growly Group - Site",
+        link_gg_github: "Growly Group - GitHub",
+        footer_code: "Código",
+        footer_text: "Consistência é a chave",
+        lang_toggle_title: "Toggle language",
+        tooltip_coming_soon: "Em breve"
+      }
+    };
+
+    // --- Theme Logic ---
+    const applyTheme = (theme) => {
+      if (theme === 'dark') {
+        body.classList.add('dark-mode');
+        themeToggle.textContent = '🌙';
+      } else {
+        body.classList.remove('dark-mode');
+        themeToggle.textContent = '☀️';
+      }
+    };
+
+    themeToggle.addEventListener('click', () => {
+      const newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
+      applyTheme(newTheme);
+      localStorage.setItem('theme', newTheme);
+    });
+
+    // --- Language Logic ---
+    const setLanguage = (lang) => {
+      html.lang = lang;
+      const langData = translations[lang];
+      document.querySelectorAll('[data-translate]').forEach(el => {
+        const key = el.getAttribute('data-translate');
+        if (langData[key]) {
+          el.innerHTML = langData[key];
+        }
+      });
+      if (lang === 'pt-BR') {
+        languageToggle.textContent = '🇧🇷';
+      } else {
+        languageToggle.textContent = '🇺🇸';
+      }
+      languageToggle.title = langData.lang_toggle_title;
+    };
+
+    languageToggle.addEventListener('click', () => {
+      const newLang = html.lang === 'pt-BR' ? 'en-US' : 'pt-BR';
+      setLanguage(newLang);
+      localStorage.setItem('language', newLang);
+    });
+
+
+    function initialize() {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (savedTheme) {
+        applyTheme(savedTheme);
+      } else if (prefersDark) {
+        applyTheme('dark');
+      }
+
+      const savedLang = localStorage.getItem('language') || 'pt-BR';
+      setLanguage(savedLang);
+    }
+
+    initialize();
+
+  </script>
 </body>
+
 </html>
