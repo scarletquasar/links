@@ -10,10 +10,17 @@ const translations = {
     link_gg_github: "Growly Group - GitHub",
     link_growlinks: "growlinks.me - URL shortener and easy webpages",
     saas_section: "SaaS",
+    articles_title: "My articles",
+    search_placeholder: "Search articles...",
+    filter_by_tag: "Filter by tag:",
+    all_tags: "All",
+    sort_by: "Sort by:",
+    filter_date: "Filter by date:",
+    view_all_tags: "View all tags",
+    all_tags_title: "All Tags",
     footer_code: "Code",
     footer_text: "Consistency is the key",
-    lang_toggle_title: "Mudar idioma",
-    tooltip_coming_soon: "Coming soon"
+    lang_toggle_title: "Mudar idioma"
   },
   "pt-BR": {
     subtitle: "Arquiteta de Software",
@@ -26,9 +33,16 @@ const translations = {
     link_gg_github: "Growly Group - GitHub",
     link_growlinks: "growlinks.me - Encurtador de URLs e sites da web",
     saas_section: "SaaS",
+    articles_title: "Meus artigos",
+    search_placeholder: "Buscar artigos...",
+    filter_by_tag: "Filtrar por tag:",
+    all_tags: "Todas",
+    sort_by: "Ordenar por:",
+    filter_date: "Filtrar por data:",
+    view_all_tags: "Ver todas as tags",
+    all_tags_title: "Todas as Tags",
     footer_code: "Código",
     footer_text: "Consistência é a chave",
-    lang_toggle_title: "Toggle language",
-    tooltip_coming_soon: "Em breve"
+    lang_toggle_title: "Toggle language"
   }
 };
