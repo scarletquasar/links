@@ -277,7 +277,7 @@
 
     <h1 data-translate="articles_title">Artigos</h1>
 
-    <div class="search-section" style="margin-bottom: 20px;">
+    <div class="search-section" id="search-section" style="margin-bottom: 20px;">
       <input type="text" id="search-input" data-translate-placeholder="search_placeholder" placeholder="Buscar artigos..." style="width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--link-bg); color: var(--link-text);">
       <div style="margin-top: 10px;">
         <label data-translate="sort_by">Ordenar por:</label>
@@ -298,11 +298,31 @@
       </div>
 
       <div id="article-area" style="display:none">
+        <button id="back-to-search" style="display:none;margin-bottom:18px;padding:10px 18px;border-radius:8px;border:1px solid var(--border-color);background:var(--link-bg);color:var(--link-text);font-weight:600;cursor:pointer;box-shadow:0 2px 8px #0001;">← Voltar para pesquisa</button>
         <div class="article-card">
+          <h1 id="article-title" style="font-size:2.2em;margin-bottom:0.2em;font-family:'Work Sans',sans-serif;font-weight:700;line-height:1.1;"></h1>
           <div class="article-meta" id="article-meta"></div>
           <div id="article-content" class="markdown"></div>
         </div>
       </div>
+  <script>
+    // Show/hide search and article UI
+    function showArticleUI(show, title) {
+      document.getElementById('search-section').style.display = show ? 'none' : '';
+      document.getElementById('back-to-search').style.display = show ? '' : 'none';
+      document.getElementById('article-title').textContent = show && title ? title : '';
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      var backBtn = document.getElementById('back-to-search');
+      if (backBtn) {
+        backBtn.onclick = function() {
+          document.getElementById('article-area').style.display = 'none';
+          showArticleUI(false);
+          window.scrollTo({top:0,behavior:'smooth'});
+        };
+      }
+    });
+  </script>
     </div>
 
     <div style="height:40px"></div>

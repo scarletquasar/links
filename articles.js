@@ -21,15 +21,27 @@ function showArticleFromText(md, meta, tags) {
   const articleArea = document.getElementById('article-area');
   const articleContent = document.getElementById('article-content');
   const articleMeta = document.getElementById('article-meta');
+  const articleTitle = document.getElementById('article-title');
 
-  let metaText = meta || '';
+  // meta can be 'Title - Date' or just title
+  let title = '';
+  let metaText = '';
+  if (meta && typeof meta === 'string') {
+    const dashIdx = meta.indexOf(' - ');
+    if (dashIdx > 0) {
+      title = meta.slice(0, dashIdx);
+      metaText = meta.slice(dashIdx + 3);
+    } else {
+      title = meta;
+    }
+  }
   if (tags && tags.length) {
-    metaText += ' | Tags: ' + tags.map(t => `<span class="tag-badge" onclick="window.location.href='?tag=${encodeURIComponent(t)}'">${t}</span>`).join(' ');
+    metaText += (metaText ? ' | ' : '') + 'Tags: ' + tags.map(t => `<span class="tag-badge" onclick="window.location.href='?tag=${encodeURIComponent(t)}'">${t}</span>`).join(' ');
   }
   articleMeta.innerHTML = metaText;
   articleContent.innerHTML = mdToHtml(md);
   articleArea.style.display = 'block';
-
+  if (typeof showArticleUI === 'function') showArticleUI(true, title);
   // VS Code style code block headers
   setTimeout(() => {
     document.querySelectorAll('.markdown pre code').forEach(codeEl => {
@@ -71,20 +83,38 @@ function loadArticleFromUrl(url) {
 
 // Articles data (expand this list as needed)
 const articles = [
-  { title: 'Bem-vinda ao Growlinks', src: 'articles/sample-article.md', tags: ['growlinks', 'saas', 'tutorial'], excerpt: 'Este é um artigo de exemplo...', date: '2025-10-19' }
+  {
+    id: 'hello-world',
+    title: {
+      'pt-BR': 'Hello World Markdown Demo',
+      'en-US': 'Hello World Markdown Demo'
+    },
+    src: {
+      'pt-BR': 'articles/hello-world.pt.md',
+      'en-US': 'articles/hello-world.en.md'
+    },
+    tags: ['demo', 'markdown', 'tutorial'],
+    excerpt: {
+      'pt-BR': 'Demonstra todas as features do markdown...',
+      'en-US': 'Demonstrates all markdown features...'
+    },
+    date: '2025-10-19'
+  }
 ];
 
 function renderArticlesList(filteredArticles) {
   const listEl = document.getElementById('articles-list');
   listEl.innerHTML = '';
+  const lang = document.documentElement.lang;
   filteredArticles.forEach(article => {
+    if (!article.src[lang]) return; // só mostra se tem versão na linguagem
     const a = document.createElement('a');
-    a.href = '?src=' + encodeURIComponent(article.src);
+    a.href = '?src=' + encodeURIComponent(article.id);
     a.className = 'article-link';
     const tagsHtml = article.tags.map(t => `<a href="?tag=${encodeURIComponent(t)}" class="tag-badge">${t}</a>`).join('');
     a.innerHTML = `
-      <strong>${article.title}</strong><br>
-      <small>${article.excerpt}</small><br>
+      <strong>${article.title[lang]}</strong><br>
+      <small>${article.excerpt[lang]}</small><br>
       <small>Data: ${article.date}</small><br>
       <div>${tagsHtml}</div>
     `;
@@ -162,7 +192,7 @@ function initArticlesPage() {
   renderTagFilters();
 
   const params = new URLSearchParams(window.location.search);
-  const src = params.get('src');
+  const articleId = params.get('src');
   const tag = params.get('tag');
   const q = params.get('q') || '';
   const sort = params.get('sort') || 'date-desc';
@@ -194,15 +224,26 @@ function initArticlesPage() {
   dateFrom.addEventListener('change', updateList);
   dateTo.addEventListener('change', updateList);
 
-  if (src) {
-    const article = articles.find(a => a.src === src);
+  if (articleId) {
+    const lang = document.documentElement.lang;
+    const article = articles.find(a => a.id === articleId);
+    let chosenLang = lang;
     if (article) {
-      fetch(article.src).then(res => res.text()).then(md => {
-        showArticleFromText(md, article.title + ' - ' + article.date, article.tags);
+      // Se só existe uma versão, muda o idioma do site
+      const langsAvailable = Object.keys(article.src);
+      if (langsAvailable.length === 1) {
+        chosenLang = langsAvailable[0];
+        if (window.setLanguage) setLanguage(chosenLang);
+      }
+      const src = article.src[chosenLang] || article.src[langsAvailable[0]];
+      fetch(src).then(res => res.text()).then(md => {
+        showArticleFromText(md, article.title[chosenLang] + ' - ' + article.date, article.tags);
       });
     } else {
-      loadArticleFromUrl(src);
+      showArticleFromText('# Erro\nArtigo não encontrado.');
     }
+  } else {
+    if (typeof showArticleUI === 'function') showArticleUI(false);
   }
 }
 
@@ -210,4 +251,11 @@ if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initArticlesPage);
 } else {
   initArticlesPage();
+}
+
+// Re-render articles list when language changes
+if (window.languageToggle) {
+  window.languageToggle.addEventListener('click', function() {
+    setTimeout(initArticlesPage, 20);
+  });
 }
