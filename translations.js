@@ -3,7 +3,7 @@ const translations = {
     subtitle: "Software Architect",
     nav_articles: "/articles",
     bio: "I like <b>open source</b>, <b>SaaS development</b>, <b>software engineering</b>, <b>devops</b>, <b>self-hosted infrastructure</b>, <b>Kasane Teto</b> and I want to do cosplay in the future.",
-    status_text: "🌱 Currently working as a <b>Senior Solutions Architect</b> on the underlying technology behind brazilian PIX instant payments at <b>Itaú bank</b> and trying to develop meaningful solutions at <b>Growly Group</b>.",
+    status_text: "🌱 Currently working as a <b>Senior Solutions Architect</b> on the underlying technology behind international accounts and vaults at <b>Itaú bank</b> and trying to develop meaningful solutions at <b>Growly Group</b>.",
     link_github: "Scarlet - Github",
     link_linkedin: "Scarlet - LinkedIn",
     link_gg_website: "Growly Group - Website",
